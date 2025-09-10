@@ -1,0 +1,22 @@
+---
+export interface Props {
+  title: string;
+  description: string;
+  actionText?: string;
+  actionHref?: string;
+}
+
+const { title, description, actionText, actionHref } = Astro.props;
+---
+
+<div class="flex flex-col items-center justify-center py-12">
+  <h2 class="text-headline-m">{title}</h2>
+  <p class="mt-2 text-body-l text-muted-foreground">
+    {description}
+  </p>
+  {actionText && actionHref && (
+    <a href={actionHref} class="mt-4 text-label-l text-primary hover:underline">
+      {actionText}
+    </a>
+  )}
+</div>

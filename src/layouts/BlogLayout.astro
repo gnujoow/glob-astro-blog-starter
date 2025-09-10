@@ -1,0 +1,73 @@
+---
+import Layout from './Layout.astro';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
+import { Button } from '@/components/ui/button';
+import { ArrowLeft } from 'lucide-astro';
+
+export interface Props {
+  frontmatter: {
+    title: string;
+    description: string;
+    publishDate: string;
+    author?: string;
+    tags?: string[];
+  };
+}
+
+const { frontmatter } = Astro.props;
+const { title, description, publishDate, author = "Anonymous", tags = [] } = frontmatter;
+---
+
+<Layout title={title} description={description}>
+  <div class="container max-w-6xl py-6 lg:py-10">
+    <div class="mb-6">
+      <Button variant="ghost" size="sm" class="mb-4" asChild>
+        <a href="/blog" class="flex items-center gap-2">
+          <ArrowLeft size={16} />
+          목록으로 가기
+        </a>
+      </Button>
+    </div>
+    
+    <div class="mb-8">
+      <h1 class="text-4xl font-extrabold leading-tight tracking-tighter md:text-5xl">
+        {title}
+      </h1>
+      <p class="mt-4 text-xl text-muted-foreground">
+        {description}
+      </p>
+      
+      <div class="mt-6 flex items-center gap-2 text-sm text-muted-foreground">
+        <time datetime={publishDate}>
+          {new Date(publishDate).toLocaleDateString('en-US', { 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+          })}
+        </time>
+        <span>•</span>
+        <span>{author}</span>
+      </div>
+      
+      {tags.length > 0 && (
+        <div class="mt-4 flex flex-wrap gap-2">
+          {tags.map((tag) => (
+            <a 
+              href={`/tags/${tag}`}
+              class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors hover:bg-primary hover:text-primary-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+            >
+              #{tag}
+            </a>
+          ))}
+        </div>
+      )}
+    </div>
+    
+    <Separator className="my-8" />
+    
+    <article class="prose prose-gray dark:prose-invert max-w-none">
+      <slot />
+    </article>
+  </div>
+</Layout>

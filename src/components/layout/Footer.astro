@@ -1,0 +1,15 @@
+---
+import { Heart } from 'lucide-astro';
+---
+
+<footer class="border-t py-6 md:py-0">
+  <div class="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row max-w-6xl">
+    <p class="text-center text-sm leading-loose text-muted-foreground md:text-left flex items-center gap-1">
+      Built with 
+      <a href="https://astro.build" class="font-medium underline underline-offset-4">Astro</a>,
+      <a href="https://ui.shadcn.com" class="font-medium underline underline-offset-4">shadcn/ui</a>, 
+      and <Heart size={14} class="inline text-red-500" fill="currentColor" /> by 
+      <a href="https://github.com/gnujoow" class="font-medium underline underline-offset-4">gnujoow</a>
+    </p>
+  </div>
+</footer>

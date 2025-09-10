@@ -1,0 +1,31 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../../components/layout/PageHeader.astro';
+import EmptyState from '../../components/layout/EmptyState.astro';
+import { TagCard } from '@/components/ui/tag-card';
+import { getTagsWithCounts } from '../../lib/blog/utils';
+
+const sortedTags = await getTagsWithCounts();
+---
+
+<Layout title="Tags" description="Browse all tags and topics covered in our blog posts.">
+  <div class="container max-w-6xl py-6 lg:py-10">
+    <PageHeader 
+      title="Tags" 
+      description="Explore topics and categories from our blog posts." 
+    />
+    
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      {sortedTags.map(({ tag, count }) => (
+        <TagCard tag={tag} count={count} client:load />
+      ))}
+    </div>
+    
+    {sortedTags.length === 0 && (
+      <EmptyState 
+        title="No tags yet"
+        description="Tags will appear here as you publish blog posts with tags."
+      />
+    )}
+  </div>
+</Layout>

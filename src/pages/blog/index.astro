@@ -1,0 +1,31 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../../components/layout/PageHeader.astro';
+import EmptyState from '../../components/layout/EmptyState.astro';
+import { BlogCard } from '../../components/blog/BlogCard';
+import { getSortedPosts } from '../../lib/blog/utils';
+
+const sortedPosts = await getSortedPosts();
+---
+
+<Layout title="Blog" description="Read our latest blog posts about web development, Astro, React, and more.">
+  <div class="container max-w-6xl py-6 lg:py-10">
+    <PageHeader 
+      title="Blog" 
+      description="Thoughts, tutorials, and insights about modern web development." 
+    />
+    
+    {sortedPosts.length > 0 ? (
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {sortedPosts.map((post) => (
+          <BlogCard post={post} client:load />
+        ))}
+      </div>
+    ) : (
+      <EmptyState 
+        title="No posts yet"
+        description="Check back soon for new content!"
+      />
+    )}
+  </div>
+</Layout>

@@ -1,0 +1,20 @@
+---
+import { getSortedPosts } from '../../lib/blog/utils';
+
+export async function getStaticPaths() {
+  const posts = await getSortedPosts();
+  
+  return posts.map((post) => {
+    const slug = post.url.replace('/blog/', '');
+    return {
+      params: { slug },
+      props: { post }
+    };
+  });
+}
+
+const { post } = Astro.props;
+const { Content } = post;
+---
+
+<Content />

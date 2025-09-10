@@ -1,0 +1,279 @@
+---
+title: "Astro Performance Optimization Tips"
+description: "Discover best practices for building lightning-fast websites with Astro's island architecture and optimization features."
+publishDate: "2024-01-25"
+tags: ["astro", "performance", "optimization", "web-development", "islands"]
+layout: "../../layouts/BlogLayout.astro"
+---
+
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+
+Astro is designed for speed, but knowing how to leverage its features can make your site even faster. Let's explore the key strategies for building high-performance websites with Astro.
+
+## The Island Architecture
+
+Astro's biggest performance advantage comes from its **Island Architecture**. By default, Astro generates static HTML with zero JavaScript, only hydrating components when necessary.
+
+<Card className="my-6">
+  <CardHeader>
+    <CardTitle>🏝️ How Islands Work</CardTitle>
+  </CardHeader>
+  <CardContent className="space-y-3">
+    <div className="flex items-start gap-3">
+      <span className="w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm font-bold">1</span>
+      <div>
+        <strong>Static by Default</strong> - All components render to HTML at build time
+      </div>
+    </div>
+    <div className="flex items-start gap-3">
+      <span className="w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center text-sm font-bold">2</span>
+      <div>
+        <strong>Selective Hydration</strong> - Only interactive components load JavaScript
+      </div>
+    </div>
+    <div className="flex items-start gap-3">
+      <span className="w-6 h-6 bg-purple-500 text-white rounded-full flex items-center justify-center text-sm font-bold">3</span>
+      <div>
+        <strong>Lazy Loading</strong> - Components hydrate when they become visible
+      </div>
+    </div>
+  </CardContent>
+</Card>
+
+## Client Directives
+
+Control when and how components hydrate using Astro's client directives:
+
+```astro
+---
+import Counter from './Counter.jsx';
+---
+
+<!-- Never hydrates (static only) -->
+<Counter />
+
+<!-- Hydrates immediately -->
+<Counter client:load />
+
+<!-- Hydrates when visible -->
+<Counter client:visible />
+
+<!-- Hydrates when browser is idle -->
+<Counter client:idle />
+
+<!-- Hydrates on media query match -->
+<Counter client:media="(max-width: 768px)" />
+```
+
+## Image Optimization
+
+Astro's built-in image optimization can dramatically improve loading times:
+
+```astro
+---
+import { Image } from 'astro:assets';
+import heroImage from '../assets/hero.jpg';
+---
+
+<!-- Optimized image with responsive sizes -->
+<Image
+  src={heroImage}
+  alt="Hero image"
+  width={800}
+  height={600}
+  format="webp"
+  loading="lazy"
+  sizes="(max-width: 768px) 100vw, 800px"
+/>
+```
+
+<div className="my-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg dark:bg-yellow-950/20 dark:border-yellow-800">
+  <h4 className="font-semibold text-yellow-800 dark:text-yellow-200 mb-2">
+    💡 Image Optimization Benefits
+  </h4>
+  <ul className="text-sm text-yellow-700 dark:text-yellow-300 space-y-1">
+    <li>• Automatic format conversion (WebP, AVIF)</li>
+    <li>• Responsive image generation</li>
+    <li>• Lazy loading by default</li>
+    <li>• Build-time optimization</li>
+  </ul>
+</div>
+
+## Bundle Optimization
+
+### Code Splitting
+
+Astro automatically splits your code, but you can optimize further:
+
+```javascript
+// Dynamic imports for heavy components
+const HeavyChart = lazy(() => import('./HeavyChart.jsx'));
+
+// Use with Suspense for better UX
+<Suspense fallback={<div>Loading chart...</div>}>
+  <HeavyChart />
+</Suspense>
+```
+
+### Tree Shaking
+
+Import only what you need from libraries:
+
+```javascript
+// ❌ Imports entire library
+import _ from 'lodash';
+
+// ✅ Imports only needed function
+import { debounce } from 'lodash-es';
+```
+
+## Performance Monitoring
+
+<div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
+  <Card>
+    <CardHeader>
+      <CardTitle className="text-lg">📊 Core Web Vitals</CardTitle>
+    </CardHeader>
+    <CardContent>
+      <ul className="text-sm space-y-1">
+        <li><strong>LCP:</strong> Largest Contentful Paint</li>
+        <li><strong>FID:</strong> First Input Delay</li>
+        <li><strong>CLS:</strong> Cumulative Layout Shift</li>
+      </ul>
+    </CardContent>
+  </Card>
+  
+  <Card>
+    <CardHeader>
+      <CardTitle className="text-lg">🛠️ Tools</CardTitle>
+    </CardHeader>
+    <CardContent>
+      <ul className="text-sm space-y-1">
+        <li>• Lighthouse</li>
+        <li>• PageSpeed Insights</li>
+        <li>• Web Vitals Extension</li>
+      </ul>
+    </CardContent>
+  </Card>
+</div>
+
+## Build Optimization
+
+### Environment-Specific Builds
+
+Configure different optimizations for development and production:
+
+```javascript
+// astro.config.mjs
+export default defineConfig({
+  build: {
+    inlineStylesheets: 'auto',
+    splitting: true,
+  },
+  vite: {
+    build: {
+      minify: 'esbuild',
+      sourcemap: process.env.NODE_ENV === 'development',
+    }
+  }
+});
+```
+
+### Static Site Generation
+
+Leverage Astro's SSG capabilities:
+
+```astro
+---
+// Generate pages at build time
+export async function getStaticPaths() {
+  const posts = await Astro.glob('../content/blog/*.mdx');
+  
+  return posts.map(post => ({
+    params: { slug: post.url },
+    props: { post }
+  }));
+}
+---
+```
+
+## Advanced Techniques
+
+### Preloading Critical Resources
+
+```astro
+---
+// In your head section
+---
+<link rel="preload" href="/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/critical-image.webp" as="image">
+```
+
+### Service Workers
+
+Implement caching strategies with service workers:
+
+```javascript
+// sw.js
+self.addEventListener('fetch', event => {
+  if (event.request.destination === 'image') {
+    event.respondWith(
+      caches.open('images').then(cache => {
+        return cache.match(event.request).then(response => {
+          return response || fetch(event.request).then(fetchResponse => {
+            cache.put(event.request, fetchResponse.clone());
+            return fetchResponse;
+          });
+        });
+      })
+    );
+  }
+});
+```
+
+## Performance Checklist
+
+<Card className="my-6">
+  <CardHeader>
+    <CardTitle>✅ Before You Deploy</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <div className="space-y-2 text-sm">
+      <label className="flex items-center gap-2">
+        <input type="checkbox" className="rounded" />
+        <span>Optimize and compress images</span>
+      </label>
+      <label className="flex items-center gap-2">
+        <input type="checkbox" className="rounded" />
+        <span>Use client directives appropriately</span>
+      </label>
+      <label className="flex items-center gap-2">
+        <input type="checkbox" className="rounded" />
+        <span>Minimize JavaScript bundle size</span>
+      </label>
+      <label className="flex items-center gap-2">
+        <input type="checkbox" className="rounded" />
+        <span>Test Core Web Vitals scores</span>
+      </label>
+      <label className="flex items-center gap-2">
+        <input type="checkbox" className="rounded" />
+        <span>Enable gzip/brotli compression</span>
+      </label>
+      <label className="flex items-center gap-2">
+        <input type="checkbox" className="rounded" />
+        <span>Set up proper caching headers</span>
+      </label>
+    </div>
+  </CardContent>
+</Card>
+
+By following these optimization strategies, you can build Astro sites that load instantly and provide an exceptional user experience. Remember, performance is not just about the initial load—it's about the entire user journey through your site.
+
+<div className="mt-8 text-center">
+  <Button asChild variant="outline">
+    <a href="https://docs.astro.build/en/guides/performance/" target="_blank" rel="noopener noreferrer">
+      Read More in Astro Docs
+    </a>
+  </Button>
+</div>

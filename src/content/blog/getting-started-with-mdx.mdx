@@ -1,0 +1,174 @@
+---
+title: "Getting Started with MDX in Astro"
+description: "Learn how to use MDX to create interactive blog posts with React components embedded in markdown."
+publishDate: "2024-01-20"
+tags: ["mdx", "astro", "react", "markdown", "components"]
+layout: "../../layouts/BlogLayout.astro"
+---
+
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+
+MDX is a powerful extension of Markdown that allows you to use JSX components directly in your markdown files. This means you can create rich, interactive content that goes beyond traditional blog posts.
+
+## Why MDX?
+
+Traditional Markdown is great for basic content, but sometimes you need more flexibility:
+
+<div className="grid grid-cols-1 md:grid-cols-3 gap-4 my-6">
+  <Card>
+    <CardHeader>
+      <CardTitle className="text-lg">🧩 Components</CardTitle>
+    </CardHeader>
+    <CardContent>
+      <p className="text-sm text-muted-foreground">
+        Embed React components directly in your content for interactive elements.
+      </p>
+    </CardContent>
+  </Card>
+  
+  <Card>
+    <CardHeader>
+      <CardTitle className="text-lg">🎨 Styling</CardTitle>
+    </CardHeader>
+    <CardContent>
+      <p className="text-sm text-muted-foreground">
+        Apply custom CSS classes and create beautiful layouts with Tailwind.
+      </p>
+    </CardContent>
+  </Card>
+  
+  <Card>
+    <CardHeader>
+      <CardTitle className="text-lg">⚡ Performance</CardTitle>
+    </CardHeader>
+    <CardContent>
+      <p className="text-sm text-muted-foreground">
+        Astro optimizes your content for maximum performance and SEO.
+      </p>
+    </CardContent>
+  </Card>
+</div>
+
+## Basic MDX Syntax
+
+MDX supports all standard Markdown syntax plus JSX components. Here are some examples:
+
+### Standard Markdown Elements
+
+- **Bold text** and *italic text*
+- `Inline code` and code blocks
+- [Links](https://astro.build) and images
+- Lists and blockquotes
+
+> This is a blockquote that demonstrates standard Markdown functionality working alongside JSX components.
+
+<Separator className="my-6" />
+
+### Custom Components
+
+You can import and use any React component in your MDX files:
+
+```jsx
+import { Button } from "@/components/ui/button";
+
+<Button>Click me!</Button>
+```
+
+<div className="my-6 p-4 border rounded-lg bg-muted/50">
+  <p className="mb-4">Here's a live example:</p>
+  <Button variant="default" className="mr-2">Primary Button</Button>
+  <Button variant="outline" className="mr-2">Outline Button</Button>
+  <Button variant="ghost">Ghost Button</Button>
+</div>
+
+## Advanced Layouts
+
+Create complex layouts using CSS Grid and Flexbox with Tailwind classes:
+
+<div className="my-8 p-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg dark:from-blue-950/20 dark:to-purple-950/20">
+  <h3 className="text-xl font-semibold mb-4">Featured Content</h3>
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div>
+      <h4 className="font-medium mb-2">Left Column</h4>
+      <p className="text-sm text-muted-foreground">
+        This content is in a custom layout created with Tailwind CSS classes applied directly to JSX elements in MDX.
+      </p>
+    </div>
+    <div>
+      <h4 className="font-medium mb-2">Right Column</h4>
+      <p className="text-sm text-muted-foreground">
+        You can create any layout you can imagine using the full power of CSS and React components.
+      </p>
+    </div>
+  </div>
+</div>
+
+## Code Examples with Syntax Highlighting
+
+MDX preserves all markdown features, including syntax-highlighted code blocks:
+
+```typescript
+// Example: Creating a custom MDX component
+interface Props {
+  title: string;
+  children: React.ReactNode;
+}
+
+export function Callout({ title, children }: Props) {
+  return (
+    <div className="my-6 p-4 border-l-4 border-blue-500 bg-blue-50 dark:bg-blue-950/20">
+      <h4 className="font-semibold text-blue-900 dark:text-blue-100">
+        {title}
+      </h4>
+      <div className="mt-2 text-blue-800 dark:text-blue-200">
+        {children}
+      </div>
+    </div>
+  );
+}
+```
+
+## Best Practices
+
+When working with MDX in your Astro blog, keep these tips in mind:
+
+<Card className="my-6">
+  <CardHeader>
+    <CardTitle>💡 Pro Tips</CardTitle>
+  </CardHeader>
+  <CardContent className="space-y-3">
+    <div className="flex items-start gap-3">
+      <div className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
+      <div>
+        <strong>Import components at the top</strong> - Keep your imports organized at the beginning of each MDX file.
+      </div>
+    </div>
+    <div className="flex items-start gap-3">
+      <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
+      <div>
+        <strong>Use semantic HTML</strong> - Combine MDX components with proper HTML structure for better SEO.
+      </div>
+    </div>
+    <div className="flex items-start gap-3">
+      <div className="w-2 h-2 bg-purple-500 rounded-full mt-2 flex-shrink-0"></div>
+      <div>
+        <strong>Optimize performance</strong> - Be mindful of client-side components and use Astro's island architecture wisely.
+      </div>
+    </div>
+  </CardContent>
+</Card>
+
+MDX opens up endless possibilities for creating engaging, interactive blog content. Experiment with different components and layouts to make your blog posts truly unique!
+
+<div className="mt-8 p-4 text-center bg-muted rounded-lg">
+  <p className="text-sm text-muted-foreground mb-3">
+    Ready to create your own MDX content?
+  </p>
+  <Button asChild>
+    <a href="https://mdxjs.com/docs/" target="_blank" rel="noopener noreferrer">
+      Learn More About MDX
+    </a>
+  </Button>
+</div>

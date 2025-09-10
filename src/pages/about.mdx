@@ -1,0 +1,82 @@
+---
+layout: "../layouts/Layout.astro"
+title: "About"
+description: "Learn more about this blog and its creator."
+---
+
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+
+<div class="container max-w-6xl py-6 lg:py-10">
+  <div class="mb-8">
+    <h1 class="text-display-s leading-tight tracking-tighter">
+      About
+    </h1>
+    <p class="mt-4 text-title-l text-muted-foreground">
+      Welcome to my corner of the internet where I share thoughts, tutorials, and insights about modern web development.
+    </p>
+  </div>
+  
+  ## Hello, I'm [Your Name]
+
+  I'm a passionate web developer with a love for creating fast, beautiful, and accessible web experiences. 
+  This blog is where I document my journey, share what I've learned, and hopefully help others along the way.
+  
+  ### What I Write About
+  
+  You'll find posts covering a wide range of topics, but I particularly enjoy writing about:
+  
+  - **Modern JavaScript frameworks** - React, Astro, and the latest in web development
+  - **Performance optimization** - Making the web faster for everyone
+  - **Developer experience** - Tools and techniques that make coding more enjoyable
+  - **Web accessibility** - Building inclusive experiences for all users
+  - **Design systems** - Creating consistent and scalable UI components
+  
+  ### About This Site
+  
+  This blog is built with [Astro](https://astro.build), [React](https://react.dev), 
+  and [shadcn/ui](https://ui.shadcn.com). It's designed to be fast, accessible, and enjoyable to read.
+  
+  <Card className="my-8">
+    <CardHeader>
+      <CardTitle>💡 Fun Fact</CardTitle>
+    </CardHeader>
+    <CardContent>
+      <p>
+        This entire blog template was created as a demonstration of how modern web technologies 
+        can work together to create something beautiful and functional. Every component, every page, 
+        and every line of code has been crafted with care and attention to detail.
+      </p>
+    </CardContent>
+  </Card>
+  
+  ### Get in Touch
+  
+  I love connecting with fellow developers and hearing from readers. Feel free to reach out if you have 
+  questions about any of my posts, want to discuss web development, or just want to say hello!
+  
+  <div className="my-6 flex flex-wrap gap-4">
+    <Button asChild variant="default">
+      <a href="mailto:your.email@example.com">
+        Send Email
+      </a>
+    </Button>
+    <Button asChild variant="outline">
+      <a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer">
+        GitHub
+      </a>
+    </Button>
+    <Button asChild variant="outline">
+      <a href="https://twitter.com/yourusername" target="_blank" rel="noopener noreferrer">
+        Twitter
+      </a>
+    </Button>
+  </div>
+  
+  ### Thanks for Reading
+  
+  Whether you're here for the tutorials, the insights, or just browsing around, thank you for taking 
+  the time to visit. I hope you find something useful, interesting, or inspiring.
+  
+  Happy coding! 🚀
+</div>

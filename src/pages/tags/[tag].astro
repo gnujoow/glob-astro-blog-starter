@@ -1,0 +1,51 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../../components/layout/PageHeader.astro';
+import EmptyState from '../../components/layout/EmptyState.astro';
+import { BlogCard } from '../../components/blog/BlogCard';
+import { getAllTags, getPostsByTag } from '../../lib/blog/utils';
+
+export async function getStaticPaths() {
+  const allTags = await getAllTags();
+  
+  return allTags.map(tag => ({
+    params: { tag },
+    props: { tag }
+  }));
+}
+
+const { tag } = Astro.props;
+const tagPosts = await getPostsByTag(tag);
+const postCount = tagPosts.length;
+---
+
+<Layout 
+  title={`Posts tagged "${tag}"`} 
+  description={`Browse all ${postCount} blog posts tagged with "${tag}".`}
+>
+  <div class="container max-w-6xl py-6 lg:py-10">
+    <PageHeader 
+      title={`Posts tagged "${tag}"`}
+      description={`${postCount} ${postCount === 1 ? 'post' : 'posts'} found`}
+      breadcrumb={[
+        { text: "Tags", href: "/tags" },
+        { text: `#${tag}` }
+      ]}
+    />
+    
+    {tagPosts.length > 0 ? (
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {tagPosts.map((post) => (
+          <BlogCard post={post} client:load />
+        ))}
+      </div>
+    ) : (
+      <EmptyState 
+        title="No posts found"
+        description={`No posts are tagged with "${tag}" yet.`}
+        actionText="Browse all posts"
+        actionHref="/blog"
+      />
+    )}
+  </div>
+</Layout>

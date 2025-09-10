@@ -1,0 +1,30 @@
+---
+import { Home, FileText, Tag, User } from 'lucide-astro';
+import { ThemeToggle } from '@/components/ui/theme-toggle';
+---
+
+<header class="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+  <div class="container flex h-14 max-w-6xl items-center justify-between">
+    <nav class="flex items-center space-x-6 text-sm font-medium">
+      <a href="/" class="flex items-center gap-2 transition-colors hover:text-foreground/80">
+        <Home size={16} />
+        <span>Home</span>
+      </a>
+      <a href="/blog" class="flex items-center gap-2 transition-colors hover:text-foreground/80">
+        <FileText size={16} />
+        <span>Blog</span>
+      </a>
+      <a href="/tags" class="flex items-center gap-2 transition-colors hover:text-foreground/80">
+        <Tag size={16} />
+        <span>Tags</span>
+      </a>
+    </nav>
+    <nav class="flex items-center gap-2">
+      <a href="/about" class="flex items-center gap-2 text-sm font-medium transition-colors hover:text-foreground/80">
+        <User size={16} />
+        <span>About</span>
+      </a>
+      <ThemeToggle client:load />
+    </nav>
+  </div>
+</header>

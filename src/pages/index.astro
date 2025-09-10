@@ -1,0 +1,122 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+---
+
+<Layout title="Glob - Modern Blog Starter">
+  <div class="container relative">
+    <section class="mx-auto flex max-w-[980px] flex-col items-center gap-2 py-8 md:py-12 md:pb-8 lg:py-24 lg:pb-20">
+      <h1 class="text-center text-display-l lg:text-[4rem] xl:text-[5rem] leading-tight tracking-tighter">
+        Meet 
+        <span class="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+          Glob
+        </span>
+      </h1>
+      <p class="max-w-[750px] text-center text-title-l text-muted-foreground">
+        The modern blog starter that brings together Astro's performance, React's flexibility, and shadcn/ui's beautiful components. 
+        Built for developers who want to start blogging without the setup hassle.
+      </p>
+      <div class="flex w-full items-center justify-center space-x-4 py-4 md:pb-10">
+        <Button asChild size="lg">
+          <a href="/blog">
+            Read the Blog
+          </a>
+        </Button>
+        <Button variant="outline" size="lg" asChild>
+          <a href="https://github.com/gnujoow/glob-astro-blog-template" target="_blank" rel="noopener noreferrer">
+            View on GitHub
+          </a>
+        </Button>
+      </div>
+    </section>
+    
+    <section class="mx-auto max-w-[980px] py-8 md:py-12">
+      <div class="mx-auto grid justify-center gap-4 sm:grid-cols-2 md:max-w-[64rem] md:grid-cols-3">
+        <Card>
+          <CardHeader>
+            <CardTitle class="flex items-center gap-2">
+              🚀 
+              <span>Lightning Fast</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <CardDescription>
+              Glob leverages Astro's island architecture for optimal performance with zero JavaScript by default.
+            </CardDescription>
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardHeader>
+            <CardTitle class="flex items-center gap-2">
+              🎨 
+              <span>Beautiful Design</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <CardDescription>
+              Glob comes with shadcn/ui components and Material 3 typography for a polished, accessible experience.
+            </CardDescription>
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardHeader>
+            <CardTitle class="flex items-center gap-2">
+              📝 
+              <span>Rich Content</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <CardDescription>
+              Write in MDX with embedded React components. Glob makes interactive blog posts effortless.
+            </CardDescription>
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardHeader>
+            <CardTitle class="flex items-center gap-2">
+              ⚡ 
+              <span>Type Safe</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <CardDescription>
+              Full TypeScript support with strict type checking for better development experience.
+            </CardDescription>
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardHeader>
+            <CardTitle class="flex items-center gap-2">
+              🔍 
+              <span>SEO Ready</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <CardDescription>
+              Automatic sitemap generation, meta tags, and performance optimization out of the box.
+            </CardDescription>
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardHeader>
+            <CardTitle class="flex items-center gap-2">
+              🎯 
+              <span>Easy Deploy</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <CardDescription>
+              Glob works with any static hosting - Vercel, Netlify, GitHub Pages, and more.
+            </CardDescription>
+          </CardContent>
+        </Card>
+      </div>
+    </section>
+  </div>
+</Layout>

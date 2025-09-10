@@ -1,0 +1,110 @@
+---
+title: "Welcome to Your New Astro Blog"
+description: "Get started with this modern blog template featuring Astro, React, and shadcn/ui components."
+publishDate: "2024-01-15"
+tags: ["astro", "react", "shadcn/ui", "blog", "tutorial"]
+layout: "../../layouts/BlogLayout.astro"
+---
+
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+
+Welcome to your new Astro blog! This template combines the power of **Astro**, **React**, and **shadcn/ui** to create a fast, modern, and beautiful blogging experience.
+
+## What's Included
+
+This blog template comes with everything you need to start writing:
+
+<Card className="my-6">
+  <CardHeader>
+    <CardTitle>✨ Features</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <ul className="list-disc list-inside space-y-2">
+      <li><strong>Astro</strong> - Ultra-fast static site generation</li>
+      <li><strong>React</strong> - Interactive components where needed</li>
+      <li><strong>shadcn/ui</strong> - Beautiful, accessible UI components</li>
+      <li><strong>MDX</strong> - Markdown with JSX component support</li>
+      <li><strong>Tailwind CSS</strong> - Utility-first styling</li>
+      <li><strong>Sitemap</strong> - Automatic SEO optimization</li>
+    </ul>
+  </CardContent>
+</Card>
+
+## Getting Started
+
+To start writing your own blog posts, simply create new `.mdx` files in the `src/content/blog/` directory. Each post should include frontmatter with the following fields:
+
+```yaml
+---
+title: "Your Post Title"
+description: "A brief description of your post"
+publishDate: "2024-01-15"
+author: "Your Name"
+tags: ["tag1", "tag2", "tag3"]
+layout: "../../layouts/BlogLayout.astro"
+---
+```
+
+## Interactive Components
+
+Thanks to MDX, you can use React components directly in your markdown:
+
+<div className="my-6">
+  <Button className="mr-4">Click me!</Button>
+  <Button variant="outline">Or me!</Button>
+</div>
+
+## Code Highlighting
+
+Code blocks are beautifully styled:
+
+```javascript
+function greet(name) {
+  console.log(`Hello, ${name}!`);
+}
+
+greet('Astro');
+```
+
+```typescript
+interface BlogPost {
+  title: string;
+  description: string;
+  publishDate: string;
+  author?: string;
+  tags?: string[];
+}
+```
+
+## Styling with Tailwind
+
+The template uses Tailwind CSS for styling, giving you complete control over the design:
+
+<div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
+  <Card>
+    <CardHeader>
+      <CardTitle>Responsive Design</CardTitle>
+      <CardDescription>
+        Built mobile-first with responsive utilities
+      </CardDescription>
+    </CardHeader>
+  </Card>
+  <Card>
+    <CardHeader>
+      <CardTitle>Dark Mode Ready</CardTitle>
+      <CardDescription>
+        Automatic dark mode support with shadcn/ui
+      </CardDescription>
+    </CardHeader>
+  </Card>
+</div>
+
+## What's Next?
+
+1. **Customize the design** - Edit the layout files and Tailwind configuration
+2. **Add more components** - Install additional shadcn/ui components as needed
+3. **Write great content** - Start creating your blog posts in MDX
+4. **Deploy** - Push to GitHub and deploy with Vercel, Netlify, or your preferred platform
+
+Happy blogging! 🎉
