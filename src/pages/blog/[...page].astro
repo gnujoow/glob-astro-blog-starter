@@ -1,4 +1,5 @@
 ---
+import type { GetStaticPaths } from 'astro';
 import Layout from '../../layouts/Layout.astro';
 import PageHeader from '../../components/layout/PageHeader.astro';
 import EmptyState from '../../components/layout/EmptyState.astro';
@@ -6,30 +7,36 @@ import { BlogCard } from '../../components/blog/BlogCard';
 import { Pagination } from '../../components/blog/Pagination';
 import { getSortedPosts } from '../../lib/blog/utils';
 
-const allPosts = await getSortedPosts();
-const postsPerPage = 30;
-const totalPages = Math.ceil(allPosts.length / postsPerPage);
-const currentPagePosts = allPosts.slice(0, postsPerPage);
+export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
+  const allPosts = await getSortedPosts();
+  
+  return paginate(allPosts, {
+    pageSize: 30, // 페이지당 30개 포스트
+  });
+};
+
+const { page } = Astro.props;
+const { data: posts, currentPage, lastPage, url } = page;
 ---
 
-<Layout title="Blog" description="Read our latest blog posts about web development, Astro, React, and more.">
+<Layout title={`Blog${currentPage > 1 ? ` - 페이지 ${currentPage}` : ''}`} description="Read our latest blog posts about web development, Astro, React, and more.">
   <div class="container max-w-6xl py-6 lg:py-10">
     <PageHeader 
       title="Blog" 
       description="Thoughts, tutorials, and insights about modern web development." 
     />
     
-    {currentPagePosts.length > 0 ? (
+    {posts.length > 0 ? (
       <>
         <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {currentPagePosts.map((post) => (
+          {posts.map((post) => (
             <BlogCard post={post} client:load />
           ))}
         </div>
         
         <Pagination 
-          currentPage={1}
-          totalPages={totalPages}
+          currentPage={currentPage}
+          totalPages={lastPage}
           basePath="/blog"
           client:load
         />

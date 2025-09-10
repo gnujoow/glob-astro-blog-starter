@@ -5,6 +5,7 @@ export async function getStaticPaths() {
   const posts = await getSortedPosts();
   
   return posts.map((post) => {
+    // Extract category/filename from URL: /blog/category/filename -> category/filename
     const slug = post.url.replace('/blog/', '');
     return {
       params: { slug },

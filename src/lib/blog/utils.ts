@@ -3,12 +3,14 @@
 export interface BlogPost {
   url: string;
   file: string;
+  category: string;
   frontmatter: {
     title: string;
     description: string;
     publishDate: string;
     author?: string;
     tags?: string[];
+    draft?: boolean;
   };
   Content?: any;
 }
@@ -21,15 +23,16 @@ export interface RawPost {
     publishDate: string;
     author?: string;
     tags?: string[];
+    draft?: boolean;
   };
   default?: any;
 }
 
 /**
- * Get all blog posts using Astro.glob
+ * Get all blog posts using Astro.glob (including nested category folders)
  */
 export async function getAllPosts(): Promise<RawPost[]> {
-  const posts = await import.meta.glob('/src/content/blog/*.mdx', { eager: true });
+  const posts = await import.meta.glob('/src/content/blog/**/*.mdx', { eager: true });
   return Object.entries(posts).map(([path, post]: [string, any]) => ({
     file: path,
     frontmatter: post.frontmatter,
@@ -38,20 +41,35 @@ export async function getAllPosts(): Promise<RawPost[]> {
 }
 
 /**
- * Generate URL from file path
+ * Extract category from file path
  */
-export function generatePostUrl(filePath: string): string {
-  const filename = filePath.split('/').pop()?.replace('.mdx', '');
-  return `/blog/${filename}`;
+export function extractCategory(filePath: string): string {
+  const pathParts = filePath.split('/');
+  const blogIndex = pathParts.findIndex(part => part === 'blog');
+  if (blogIndex !== -1 && blogIndex < pathParts.length - 2) {
+    return pathParts[blogIndex + 1];
+  }
+  return 'misc'; // fallback category
 }
 
 /**
- * Transform raw post to blog post with URL
+ * Generate URL from file path
+ */
+export function generatePostUrl(filePath: string): string {
+  const pathParts = filePath.split('/');
+  const filename = pathParts.pop()?.replace('.mdx', '');
+  const category = extractCategory(filePath);
+  return `/blog/${category}/${filename}`;
+}
+
+/**
+ * Transform raw post to blog post with URL and category
  */
 export function transformPost(rawPost: RawPost): BlogPost {
   return {
     ...rawPost,
     url: generatePostUrl(rawPost.file),
+    category: extractCategory(rawPost.file),
     Content: rawPost.default
   };
 }
@@ -72,7 +90,10 @@ export function sortPostsByDate(posts: BlogPost[]): BlogPost[] {
 export async function getSortedPosts(): Promise<BlogPost[]> {
   const rawPosts = await getAllPosts();
   const postsWithUrls = rawPosts.map(transformPost);
-  return sortPostsByDate(postsWithUrls);
+  const filteredPosts = import.meta.env.PROD 
+    ? postsWithUrls.filter(post => !post.frontmatter.draft)
+    : postsWithUrls;
+  return sortPostsByDate(filteredPosts);
 }
 
 /**
@@ -80,8 +101,11 @@ export async function getSortedPosts(): Promise<BlogPost[]> {
  */
 export async function getTagsWithCounts(): Promise<Array<{ tag: string; count: number }>> {
   const posts = await getAllPosts();
+  const filteredPosts = import.meta.env.PROD 
+    ? posts.filter(post => !post.frontmatter.draft)
+    : posts;
   
-  const tagCounts = posts.reduce((acc, post) => {
+  const tagCounts = filteredPosts.reduce((acc, post) => {
     const tags = post.frontmatter.tags || [];
     tags.forEach((tag: string) => {
       acc[tag] = (acc[tag] || 0) + 1;
@@ -111,4 +135,38 @@ export async function getAllTags(): Promise<string[]> {
   const posts = await getAllPosts();
   const allTags = posts.flatMap(post => post.frontmatter.tags || []);
   return [...new Set(allTags)];
+}
+
+/**
+ * Get posts filtered by category
+ */
+export async function getPostsByCategory(targetCategory: string): Promise<BlogPost[]> {
+  const allPosts = await getSortedPosts();
+  return allPosts.filter(post => post.category === targetCategory);
+}
+
+/**
+ * Get all unique categories with post counts
+ */
+export async function getCategoriesWithCounts(): Promise<Array<{ category: string; count: number }>> {
+  const posts = await getSortedPosts();
+  
+  const categoryCounts = posts.reduce((acc, post) => {
+    const category = post.category;
+    acc[category] = (acc[category] || 0) + 1;
+    return acc;
+  }, {} as Record<string, number>);
+
+  return Object.entries(categoryCounts)
+    .sort(([, a], [, b]) => b - a)
+    .map(([category, count]) => ({ category, count }));
+}
+
+/**
+ * Get all unique categories
+ */
+export async function getAllCategories(): Promise<string[]> {
+  const posts = await getSortedPosts();
+  const allCategories = posts.map(post => post.category);
+  return [...new Set(allCategories)];
 }

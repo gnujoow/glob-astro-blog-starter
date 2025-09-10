@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "pretendard/dist/web/static/pretendard.css";
+@import "katex/dist/katex.min.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -449,16 +450,40 @@
     outline-offset: 2px;
     border-radius: 2px;
   }
-  
+
+@layer utilities {
   .prose blockquote {
-    border-left: 4px solid hsl(var(--border));
-    padding-left: 1.5rem;
-    font-style: italic;
-    font-size: 1rem;
-    line-height: 1.6;
-    font-weight: 400;
-    margin: 1.5rem 0;
+    border: none !important;
+    border-left-width: 4px !important;
+    border-left-style: solid !important;
+    border-left-color: oklch(0.8 0 0) !important;
+    background-color: oklch(0.97 0 0) !important;
+    padding: 0.75rem 1rem 0.75rem 1.5rem !important;
+    border-radius: 0 0.5rem 0.5rem 0 !important;
+    font-style: normal !important;
+    font-size: 1rem !important;
+    line-height: 1.6 !important;
+    font-weight: 400 !important;
+    margin: 1.5rem 0 !important;
+    color: oklch(0.4 0 0) !important;
   }
+  
+  .dark .prose blockquote {
+    border-left-color: oklch(0.4 0 0) !important;
+    background-color: oklch(0.2 0 0) !important;
+    color: oklch(0.7 0 0) !important;
+  }
+
+  .prose blockquote h1,
+  .prose blockquote h2,
+  .prose blockquote h3,
+  .prose blockquote h4,
+  .prose blockquote h5,
+  .prose blockquote h6 {
+    margin-top: 0.5rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+}
   
   .prose code {
     position: relative;
@@ -530,5 +555,9 @@
     font-size: 1rem;
     line-height: 1.6;
     font-weight: 400;
+  }
+
+  .prose hr {
+    margin: 2rem 0;
   }
 }

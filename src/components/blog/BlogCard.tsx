@@ -8,9 +8,9 @@ export function BlogCard({ post }: { post: BlogPost }) {
 
   return (
     <a href={url} className="block h-full group">
-      <Card className="h-full transition-colors hover:bg-muted/50 group-hover:shadow-md">
-        <CardHeader>
-          <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
+      <Card className="h-full transition-colors hover:bg-muted/50 group-hover:shadow-md flex flex-col">
+        <CardHeader className="flex-1" style={{ display: 'flex', flexDirection: 'column' }}>
+          <div className="flex items-center gap-2 text-sm text-muted-foreground mb-1">
             <time dateTime={publishDate}>
               {new Date(publishDate).toLocaleDateString('en-US', { 
                 year: 'numeric', 
@@ -18,18 +18,16 @@ export function BlogCard({ post }: { post: BlogPost }) {
                 day: 'numeric' 
               })}
             </time>
-            <span>•</span>
-            {author && <span>{author}</span>}
           </div>
-          <CardTitle className="line-clamp-2 group-hover:text-primary transition-colors">
+          <CardTitle className="group-hover:text-primary transition-colors leading-tight mb-2">
             {title}
           </CardTitle>
-          <CardDescription className="line-clamp-3">
+          <CardDescription className="line-clamp-3 mt-0">
             {description}
           </CardDescription>
         </CardHeader>
         {tags.length > 0 && (
-          <CardContent className="pt-0">
+          <CardContent className="pt-0 mt-auto">
             <div className="flex flex-wrap gap-1 items-center">
               {tags.slice(0, 3).map((tag) => (
                 <Tag

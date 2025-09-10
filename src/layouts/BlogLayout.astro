@@ -21,15 +21,6 @@ const { title, description, publishDate, author = "Anonymous", tags = [] } = fro
 
 <Layout title={title} description={description}>
   <div class="container max-w-6xl py-6 lg:py-10">
-    <div class="mb-6">
-      <Button variant="ghost" size="sm" class="mb-4" asChild>
-        <a href="/blog" class="flex items-center gap-2">
-          <ArrowLeft size={16} />
-          목록으로 가기
-        </a>
-      </Button>
-    </div>
-    
     <div class="mb-8">
       <h1 class="text-4xl font-extrabold leading-tight tracking-tighter md:text-5xl">
         {title}
@@ -46,8 +37,6 @@ const { title, description, publishDate, author = "Anonymous", tags = [] } = fro
             day: 'numeric' 
           })}
         </time>
-        <span>•</span>
-        <span>{author}</span>
       </div>
       
       {tags.length > 0 && (
@@ -69,5 +58,14 @@ const { title, description, publishDate, author = "Anonymous", tags = [] } = fro
     <article class="prose prose-gray dark:prose-invert max-w-none">
       <slot />
     </article>
+    
+    <div class="mt-12 pt-8 border-t">
+      <Button variant="outline" size="sm" asChild>
+        <a href="/blog" class="flex items-center gap-2">
+          <ArrowLeft size={16} />
+          Back to List
+        </a>
+      </Button>
+    </div>
   </div>
 </Layout>
