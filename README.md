@@ -22,7 +22,7 @@ cd my-blog && pnpm install && pnpm dev
 
 Or with Astro CLI:
 ```bash
-pnpm create astro@latest my-blog -- --template gnujoow/glob-astro-blog-template
+pnpm create astro@latest my-blog -- --template gnujoow/glob-astro-blog-starter
 ```
 
 ## 📝 Writing Posts
